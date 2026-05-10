@@ -21,22 +21,20 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.38.10'
-        channel: 'stable'
+    - name: Install Android SDK
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y openjdk-11-jdk sdkmanager
+        yes | sdkmanager "platform-tools" "platforms;android-33"
+        yes | sdkmanager --licenses
     
-    - name: Install dependencies
-      run: flutter pub get
-      working-directory: app
-    
-    - name: Build code generators
-      run: dart run build_runner build -d
-      working-directory: app
-    
-    - name: Build APK
-      run: flutter build apk --release
+    - name: Build with Flutter from submodule
+      run: |
+        export PATH="$GITHUB_WORKSPACE/submodules/flutter/bin:$PATH"
+        flutter config --no-analytics
+        flutter pub get
+        dart run build_runner build -d
+        flutter build apk --release
       working-directory: app
     
     - name: Upload APK
