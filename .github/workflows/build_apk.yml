@@ -13,23 +13,19 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Set up Java
-      uses: actions/setup-java@v4
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-    
-    - name: Set up Android SDK
-      uses: android-actions/setup-android@v3
-      with:
-        api-level: 33
-        build-tools: 33.0.0
-    
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.38.10'
         channel: 'stable'
+    
+    - name: Install Android SDK components
+      run: |
+        yes | sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.0" --sdk_root=${ANDROID_HOME}
+    
+    - name: Accept Android licenses
+      run: |
+        yes | sdkmanager --licenses --sdk_root=${ANDROID_HOME}
     
     - name: Install dependencies
       run: flutter pub get
