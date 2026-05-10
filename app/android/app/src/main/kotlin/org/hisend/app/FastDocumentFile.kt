@@ -1,4 +1,4 @@
-package org.localsend.localsend_app
+package org.hisend.app
 
 import android.content.ContentResolver
 import android.content.Context
@@ -9,9 +9,6 @@ import android.util.Log
 
 const val MIME_TYPE_DIR = "vnd.android.document/directory"
 
-/**
- * Similar to AndroidX/DocumentFile, but faster by querying all fields at once.
- */
 class FastDocumentFile(
     private val context: Context,
     private val mime: String,
@@ -75,9 +72,6 @@ class FastDocumentFile(
     companion object {
         const val TAG = "FastDocumentFile"
 
-        /**
-         * Create a FastDocumentFile from a tree Uri.
-         */
         fun fromTreeUri(context: Context, treeUri: Uri): FastDocumentFile {
             val documentId = when {
                 DocumentsContract.isDocumentUri(

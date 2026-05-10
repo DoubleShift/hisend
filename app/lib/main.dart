@@ -1,14 +1,14 @@
 import 'package:common/isolate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:localsend_app/config/huawei_theme.dart';
 import 'package:localsend_app/config/init.dart';
 import 'package:localsend_app/config/init_error.dart';
 import 'package:localsend_app/config/theme.dart' as original;
-import 'package:localsend_app/config/wechat_theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/color_mode.dart';
 import 'package:localsend_app/pages/home_page.dart';
-import 'package:localsend_app/pages/wechat/wechat_home_page.dart';
+import 'package:localsend_app/pages/huawei/huawei_home_page.dart';
 import 'package:localsend_app/provider/local_ip_provider.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
 import 'package:localsend_app/util/ui/dynamic_colors.dart';
@@ -20,8 +20,8 @@ import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 
 ThemeData getTheme(ColorMode colorMode, Brightness brightness, DynamicColors? dynamicColors) {
-  if (colorMode == ColorMode.wechat) {
-    return getWeChatTheme(brightness);
+  if (colorMode == ColorMode.huawei) {
+    return getHuaweiTheme(brightness);
   }
   return original.getTheme(colorMode, brightness, dynamicColors);
 }
@@ -65,8 +65,6 @@ class LocalSendApp extends StatelessWidget {
                 ref.redux(localIpProvider).dispatch(InitLocalIpAction());
                 break;
               case AppLifecycleState.detached:
-                // The main isolate is only exited when all child isolates are exited.
-                // https://github.com/localsend/localsend/issues/1568
                 ref.redux(parentIsolateProvider).dispatch(IsolateDisposeAction());
                 break;
               default:
@@ -75,7 +73,7 @@ class LocalSendApp extends StatelessWidget {
           },
           child: ShortcutWatcher(
             child: MaterialApp(
-              title: t.appName,
+              title: 'HiSend',
               locale: TranslationProvider.of(context).flutterLocale,
               supportedLocales: AppLocaleUtils.supportedLocales,
               localizationsDelegates: GlobalMaterialLocalizations.delegates,
@@ -85,7 +83,7 @@ class LocalSendApp extends StatelessWidget {
               themeMode: colorMode == ColorMode.oled ? ThemeMode.dark : themeMode,
               navigatorKey: Routerino.navigatorKey,
               home: RouterinoHome(
-                builder: () => const WeChatHomePage(),
+                builder: () => const HuaweiHomePage(),
               ),
             ),
           ),

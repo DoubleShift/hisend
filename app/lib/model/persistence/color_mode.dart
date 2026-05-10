@@ -3,5 +3,5 @@ enum ColorMode {
   localsend,
   oled,
   yaru,
-  wechat,
+  huawei,
 }

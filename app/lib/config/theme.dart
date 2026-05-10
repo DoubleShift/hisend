@@ -154,7 +154,7 @@ ColorScheme _determineColorScheme(ColorMode mode, Brightness brightness, Dynamic
       surface: Colors.black,
     ),
     ColorMode.yaru => throw 'Should reach here',
-    ColorMode.wechat => null,
+    ColorMode.huawei => null,
   };
 
   return colorScheme ?? defaultColorScheme;

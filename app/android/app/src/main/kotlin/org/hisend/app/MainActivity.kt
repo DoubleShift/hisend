@@ -1,4 +1,4 @@
-package org.localsend.localsend_app
+package org.hisend.app
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -14,7 +14,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
 
-private const val CHANNEL = "org.localsend.localsend_app/localsend"
+private const val CHANNEL = "org.hisend.app/hisend"
 private const val REQUEST_CODE_PICK_DIRECTORY = 1
 private const val REQUEST_CODE_PICK_DIRECTORY_PATH = 2
 private const val REQUEST_CODE_PICK_FILE = 3
@@ -22,8 +22,6 @@ private const val REQUEST_CODE_PICK_FILE = 3
 class MainActivity : FlutterActivity() {
     private var pendingResult: MethodChannel.Result? = null
 
-    // Overriding the static methods we need from the Java class, as described
-    // in the documentation of `FlutterActivity.NewEngineIntentBuilder`
     companion object {
         fun withNewEngine(): NewEngineIntentBuilder {
             return NewEngineIntentBuilder(MainActivity::class.java)
@@ -201,7 +199,6 @@ class MainActivity : FlutterActivity() {
 
         for (file in pickedDir.listFiles()) {
             if (file.isDirectory) {
-                // Recursive call
                 listFiles(file.uri, files)
             } else if (file.isFile) {
                 files.add(
