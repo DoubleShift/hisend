@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:localsend_app/config/huawei_theme.dart';
-import 'package:localsend_app/pages/huawei/chat_page.dart';
+import 'package:localsend_app/pages/huawei/chat_message.dart';
 import 'package:localsend_app/util/file_size_helper.dart';
 
 class ChatBubble extends StatelessWidget {

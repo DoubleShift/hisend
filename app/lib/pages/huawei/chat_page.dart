@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:localsend_app/config/huawei_theme.dart';
 import 'package:localsend_app/model/cross_file.dart';
 import 'package:localsend_app/pages/huawei/chat_bubble.dart';
+import 'package:localsend_app/pages/huawei/chat_message.dart';
 import 'package:localsend_app/provider/network/send_provider.dart';
 import 'package:localsend_app/provider/selection/selected_sending_files_provider.dart';
 import 'package:localsend_app/util/native/file_picker.dart';
