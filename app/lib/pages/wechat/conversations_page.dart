@@ -92,7 +92,7 @@ class _ConversationTile extends StatelessWidget {
         backgroundColor: WeChatColors.primary,
         radius: 24,
         child: Icon(
-          device.deviceType.toIcon(),
+          device.deviceType.icon,
           color: Colors.white,
           size: 24,
         ),

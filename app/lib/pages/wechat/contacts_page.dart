@@ -109,7 +109,7 @@ class _ContactTile extends StatelessWidget {
         backgroundColor: WeChatColors.primary,
         radius: 20,
         child: Icon(
-          device.deviceType.toIcon(),
+          device.deviceType.icon,
           color: Colors.white,
           size: 20,
         ),

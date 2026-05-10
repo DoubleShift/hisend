@@ -1,17 +1,12 @@
-import 'dart:io';
-
 import 'package:common/model/device.dart';
+import 'package:common/model/file_type.dart';
 import 'package:flutter/material.dart';
 import 'package:localsend_app/config/wechat_theme.dart';
 import 'package:localsend_app/model/cross_file.dart';
 import 'package:localsend_app/pages/wechat/chat_bubble.dart';
-import 'package:localsend_app/pages/wechat/select_files_page.dart';
 import 'package:localsend_app/provider/network/send_provider.dart';
-import 'package:localsend_app/provider/selection/selected_sending_files_provider.dart';
 import 'package:localsend_app/util/native/file_picker.dart';
-import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:refena_flutter/refena_flutter.dart';
-import 'package:routerino/routerino.dart';
 
 class ChatPage extends StatefulWidget {
   final Device device;
@@ -67,7 +62,12 @@ class _ChatPageState extends State<ChatPage> {
           name: 'message.txt',
           size: message.length,
           fileType: FileType.text,
+          thumbnail: null,
+          asset: null,
+          path: null,
           bytes: message.codeUnits,
+          lastModified: null,
+          lastAccessed: null,
         ),
       ];
     }
@@ -282,7 +282,7 @@ class _ChatPageState extends State<ChatPage> {
           _buildActionButton(
             icon: Icons.photo,
             label: '图片',
-            onTap: () => _pickAndSendFile(FilePickerOption.gallery),
+            onTap: () => _pickAndSendFile(FilePickerOption.media),
           ),
           _buildActionButton(
             icon: Icons.folder,
@@ -290,14 +290,14 @@ class _ChatPageState extends State<ChatPage> {
             onTap: () => _pickAndSendFile(FilePickerOption.file),
           ),
           _buildActionButton(
-            icon: Icons.video_call,
-            label: '视频',
-            onTap: () => _pickAndSendFile(FilePickerOption.video),
+            icon: Icons.folder_open,
+            label: '文件夹',
+            onTap: () => _pickAndSendFile(FilePickerOption.folder),
           ),
           _buildActionButton(
-            icon: Icons.camera_alt,
-            label: '相机',
-            onTap: () => _pickAndSendFile(FilePickerOption.camera),
+            icon: Icons.text_snippet,
+            label: '文本',
+            onTap: () => _pickAndSendFile(FilePickerOption.text),
           ),
         ],
       ),

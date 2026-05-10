@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:localsend_app/config/init.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/pages/wechat/conversations_page.dart';
 import 'package:localsend_app/pages/wechat/discover_page.dart';
 import 'package:localsend_app/pages/wechat/me_page.dart';
 import 'package:localsend_app/pages/wechat/contacts_page.dart';
+import 'package:refena_flutter/refena_flutter.dart';
 
 enum WeChatTab {
   conversations(Icons.chat_bubble_outline, Icons.chat_bubble),
@@ -37,7 +39,7 @@ class WeChatHomePage extends StatefulWidget {
   State<WeChatHomePage> createState() => _WeChatHomePageState();
 }
 
-class _WeChatHomePageState extends State<WeChatHomePage> {
+class _WeChatHomePageState extends State<WeChatHomePage> with Refena {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
@@ -46,6 +48,14 @@ class _WeChatHomePageState extends State<WeChatHomePage> {
     const DiscoverPage(),
     const MePage(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    ensureRef((ref) async {
+      await postInit(context, ref, true);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
