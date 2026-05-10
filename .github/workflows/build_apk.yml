@@ -1,0 +1,45 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+    
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+    
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.25.0'
+        channel: 'stable'
+    
+    - name: Install dependencies
+      run: flutter pub get
+      working-directory: app
+    
+    - name: Build code generators
+      run: dart run build_runner build -d
+      working-directory: app
+    
+    - name: Build APK
+      run: flutter build apk --release
+      working-directory: app
+    
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: localsend-app.apk
+        path: app/build/app/outputs/flutter-apk/app-release.apk

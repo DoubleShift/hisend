@@ -1,9 +1,11 @@
 name: localsend_app
-description: An open source cross-platform alternative to AirDrop
-homepage: https://localsend.org/
+description: LocalSend with WeChat-style UI
+homepage: https://github.com/TraeAI/localsend-wechat
 publish_to: "none"
+authors:
+  - Trae <ai@ai.com>
 
-version: 1.17.0+58
+version: 1.0.0+1
 
 environment:
   flutter: ^3.25.0

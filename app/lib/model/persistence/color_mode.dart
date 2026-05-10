@@ -1,6 +1,7 @@
 enum ColorMode {
-  system, // dynamic colors
+  system,
   localsend,
   oled,
   yaru,
+  wechat,
 }
