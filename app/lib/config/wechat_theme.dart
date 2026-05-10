@@ -23,7 +23,7 @@ class WeChatColors {
   static const Color darkTabBarBackground = Color(0xFF1A1A1A);
 }
 
-ThemeData _getWeChatTheme(Brightness brightness) {
+ThemeData getWeChatTheme(Brightness brightness) {
   final String? fontFamily;
   if (checkPlatform([TargetPlatform.windows])) {
     fontFamily = switch (LocaleSettings.currentLocale) {
@@ -89,7 +89,7 @@ ThemeData _getWeChatTheme(Brightness brightness) {
           return const TextStyle(color: Colors.grey, fontSize: 10);
         }),
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: WeChatColors.darkSurface,
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -159,7 +159,7 @@ ThemeData _getWeChatTheme(Brightness brightness) {
         return const TextStyle(color: Colors.grey, fontSize: 10);
       }),
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: Colors.white,
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

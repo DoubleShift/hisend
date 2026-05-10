@@ -60,11 +60,11 @@ class _ContactsList extends StatelessWidget {
     }
 
     final favoriteDevices = devices.where((d) {
-      return favorites.state.any((f) => f.fingerprint == d.fingerprint);
+      return favorites.any((f) => f.fingerprint == d.fingerprint);
     }).toList();
 
     final otherDevices = devices.where((d) {
-      return !favorites.state.any((f) => f.fingerprint == d.fingerprint);
+      return !favorites.any((f) => f.fingerprint == d.fingerprint);
     }).toList();
 
     return ListView(
@@ -102,7 +102,7 @@ class _ContactTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final favorites = context.watch(favoritesProvider);
-    final isFavorite = favorites.state.any((f) => f.fingerprint == device.fingerprint);
+    final isFavorite = favorites.any((f) => f.fingerprint == device.fingerprint);
 
     return ListTile(
       leading: CircleAvatar(

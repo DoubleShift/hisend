@@ -5,6 +5,7 @@ import 'package:localsend_app/config/wechat_theme.dart';
 import 'package:localsend_app/model/cross_file.dart';
 import 'package:localsend_app/pages/wechat/chat_bubble.dart';
 import 'package:localsend_app/provider/network/send_provider.dart';
+import 'package:localsend_app/provider/selection/selected_sending_files_provider.dart';
 import 'package:localsend_app/util/native/file_picker.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 
@@ -80,17 +81,19 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<void> _pickAndSendFile(FilePickerOption option) async {
-    final files = await pickFiles(
+    final ref = context.ref;
+
+    await ref.global.dispatchAsync(PickFileAction(
       option: option,
       context: context,
-    );
+    ));
 
-    if (files == null || files.isEmpty) return;
+    if (!mounted) return;
 
-    for (final file in files) {
-      final ip = widget.device.ip;
-      if (ip == null) continue;
+    final selectedFiles = ref.read(selectedSendingFilesProvider);
+    if (selectedFiles.isEmpty) return;
 
+    for (final file in selectedFiles) {
       setState(() {
         _messages.add(ChatMessage(
           id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -101,14 +104,16 @@ class _ChatPageState extends State<ChatPage> {
           fileSize: file.size,
         ));
       });
-      _scrollToBottom();
     }
+    _scrollToBottom();
 
-    await context.ref.notifier(sendProvider).startSession(
+    await ref.notifier(sendProvider).startSession(
       target: widget.device,
-      files: files,
+      files: selectedFiles.toList(),
       background: false,
     );
+
+    ref.redux(selectedSendingFilesProvider).dispatch(ClearSelectionAction());
   }
 
   MessageType _getMessageType(FileType type) {

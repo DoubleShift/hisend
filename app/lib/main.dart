@@ -21,7 +21,7 @@ import 'package:routerino/routerino.dart';
 
 ThemeData getTheme(ColorMode colorMode, Brightness brightness, DynamicColors? dynamicColors) {
   if (colorMode == ColorMode.wechat) {
-    return _getWeChatTheme(brightness);
+    return getWeChatTheme(brightness);
   }
   return original.getTheme(colorMode, brightness, dynamicColors);
 }
