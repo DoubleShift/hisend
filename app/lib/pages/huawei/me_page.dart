@@ -117,7 +117,7 @@ class MePage extends StatelessWidget {
             onPressed: () {
               final newAlias = controller.text.trim();
               if (newAlias.isNotEmpty) {
-                context.ref.redux(settingsProvider).dispatch(UpdateAliasAction(newAlias));
+                await context.ref.notifier(settingsProvider).setAlias(newAlias);
               }
               Navigator.pop(ctx);
             },

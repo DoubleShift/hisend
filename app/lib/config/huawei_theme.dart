@@ -55,6 +55,7 @@ ThemeData getHuaweiTheme(Brightness brightness) {
   return ThemeData(
     brightness: brightness,
     colorScheme: ColorScheme(
+      brightness: brightness,
       primary: primaryColor,
       onPrimary: Colors.white,
       secondary: primaryColor,
@@ -86,8 +87,6 @@ ThemeData getHuaweiTheme(Brightness brightness) {
       unselectedItemColor: HuaweiColors.textTertiary,
       type: BottomNavigationBarType.fixed,
       elevation: 0,
-      selectedFontSize: 12,
-      unselectedFontSize: 12,
     ),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: surfaceColor,
