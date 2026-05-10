@@ -21,12 +21,11 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     
-    - name: Install Android SDK
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y openjdk-11-jdk sdkmanager
-        yes | sdkmanager "platform-tools" "platforms;android-33"
-        yes | sdkmanager --licenses
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+      with:
+        api-level: 33
+        build-tools: 33.0.0
     
     - name: Build with Flutter from submodule
       run: |
