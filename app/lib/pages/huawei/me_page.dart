@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:localsend_app/config/huawei_theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/state/settings_state.dart';
-import 'package:localsend_app/pages/about/about_page.dart';
-import 'package:localsend_app/pages/changelog_page.dart';
-import 'package:localsend_app/pages/debug/debug_page.dart';
-import 'package:localsend_app/pages/receive_history_page.dart';
-import 'package:localsend_app/pages/troubleshoot_page.dart';
+import 'package:localsend_app/pages/huawei/about_page.dart';
+import 'package:localsend_app/pages/huawei/changelog_page.dart';
+import 'package:localsend_app/pages/huawei/receive_history_page.dart';
+import 'package:localsend_app/pages/huawei/settings_page.dart';
+import 'package:localsend_app/pages/huawei/troubleshoot_page.dart';
 import 'package:localsend_app/provider/device_info_provider.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
-import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 
@@ -56,40 +55,23 @@ class MePage extends StatelessWidget {
                   color: HuaweiColors.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: const Icon(
-                  Icons.devices,
-                  color: HuaweiColors.primary,
-                  size: 28,
-                ),
+                child: const Icon(Icons.devices, color: HuaweiColors.primary, size: 28),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      settings.alias,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    Text(settings.alias, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
                     const SizedBox(height: 4),
                     Text(
                       '${deviceInfo.deviceModel ?? "未知设备"} · 点击修改描述',
-                      style: TextStyle(
-                        color: HuaweiColors.textSecondary,
-                        fontSize: 13,
-                      ),
+                      style: TextStyle(color: HuaweiColors.textSecondary, fontSize: 13),
                     ),
                   ],
                 ),
               ),
-              Icon(
-                Icons.edit_outlined,
-                color: HuaweiColors.primary,
-                size: 20,
-              ),
+              Icon(Icons.edit_outlined, color: HuaweiColors.primary, size: 20),
             ],
           ),
         ),
@@ -103,18 +85,9 @@ class MePage extends StatelessWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('修改设备描述'),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          decoration: const InputDecoration(
-            hintText: '输入设备描述',
-          ),
-        ),
+        content: TextField(controller: controller, autofocus: true, decoration: const InputDecoration(hintText: '输入设备描述')),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('取消'),
-          ),
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('取消')),
           ElevatedButton(
             onPressed: () async {
               final newAlias = controller.text.trim();
@@ -136,29 +109,19 @@ class MePage extends StatelessWidget {
       child: Column(
         children: [
           _buildMenuItem(
-            icon: Icons.radar,
-            iconColor: HuaweiColors.primary,
-            title: '附近设备',
-            subtitle: '自动发现局域网内的设备',
-            onTap: () {},
-          ),
-          Divider(height: 1, indent: 56, endIndent: 16, color: Theme.of(context).dividerColor),
-          _buildMenuItem(
             icon: Icons.history,
             iconColor: HuaweiColors.success,
             title: '传输历史',
             subtitle: '查看文件传输记录',
-            onTap: () async {
-              await context.push(() => const ReceiveHistoryPage());
-            },
+            onTap: () async => await context.push(() => const HuaweiReceiveHistoryPage()),
           ),
           Divider(height: 1, indent: 56, endIndent: 16, color: Theme.of(context).dividerColor),
           _buildMenuItem(
-            icon: Icons.share,
-            iconColor: Colors.orange,
-            title: '共享文件',
-            subtitle: '分享文件给身边的朋友',
-            onTap: () {},
+            icon: Icons.help_outline,
+            iconColor: HuaweiColors.primary,
+            title: '帮助与反馈',
+            subtitle: '常见问题与故障排除',
+            onTap: () async => await context.push(() => const HuaweiTroubleshootPage()),
           ),
         ],
       ),
@@ -174,36 +137,22 @@ class MePage extends StatelessWidget {
             icon: Icons.settings_outlined,
             iconColor: Colors.grey[600]!,
             title: '设置',
-            onTap: () async {
-              await context.push(() => const DebugPage());
-            },
-          ),
-          Divider(height: 1, indent: 56, endIndent: 16, color: Theme.of(context).dividerColor),
-          _buildMenuItem(
-            icon: Icons.help_outline,
-            iconColor: HuaweiColors.primary,
-            title: '帮助与反馈',
-            onTap: () async {
-              await context.push(() => const TroubleshootPage());
-            },
+            subtitle: '外观、接收、网络等设置',
+            onTap: () async => await context.push(() => const HuaweiSettingsPage()),
           ),
           Divider(height: 1, indent: 56, endIndent: 16, color: Theme.of(context).dividerColor),
           _buildMenuItem(
             icon: Icons.info_outline,
             iconColor: HuaweiColors.primary,
             title: '关于 HiSend',
-            onTap: () async {
-              await context.push(() => const AboutPage());
-            },
+            onTap: () async => await context.push(() => const HuaweiAboutPage()),
           ),
           Divider(height: 1, indent: 56, endIndent: 16, color: Theme.of(context).dividerColor),
           _buildMenuItem(
             icon: Icons.update,
             iconColor: HuaweiColors.success,
             title: '更新日志',
-            onTap: () async {
-              await context.push(() => const ChangelogPage());
-            },
+            onTap: () async => await context.push(() => const HuaweiChangelogPage()),
           ),
         ],
       ),
@@ -227,10 +176,7 @@ class MePage extends StatelessWidget {
             Container(
               width: 36,
               height: 36,
-              decoration: BoxDecoration(
-                color: iconColor.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(10),
-              ),
+              decoration: BoxDecoration(color: iconColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
               child: Icon(icon, color: iconColor, size: 20),
             ),
             const SizedBox(width: 12),
@@ -238,18 +184,8 @@ class MePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                  ),
-                  if (subtitle != null)
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                        color: HuaweiColors.textTertiary,
-                        fontSize: 12,
-                      ),
-                    ),
+                  Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+                  if (subtitle != null) Text(subtitle, style: TextStyle(color: HuaweiColors.textTertiary, fontSize: 12)),
                 ],
               ),
             ),

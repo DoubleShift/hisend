@@ -20,10 +20,9 @@ import 'package:flutter/material.dart';
 import 'package:localsend_app/model/state/send/send_session_state.dart';
 import 'package:localsend_app/model/state/server/receive_session_state.dart';
 import 'package:localsend_app/model/state/server/receiving_file.dart';
-import 'package:localsend_app/pages/home_page.dart';
-import 'package:localsend_app/pages/home_page_controller.dart';
-import 'package:localsend_app/pages/progress_page.dart';
-import 'package:localsend_app/pages/receive_page.dart';
+import 'package:localsend_app/pages/huawei/huawei_home_page.dart';
+import 'package:localsend_app/pages/huawei/progress_page.dart';
+import 'package:localsend_app/pages/huawei/receive_page.dart';
 import 'package:localsend_app/provider/device_info_provider.dart';
 import 'package:localsend_app/provider/favorites_provider.dart';
 import 'package:localsend_app/provider/http_provider.dart';
@@ -322,10 +321,8 @@ class ReceiveController {
             ref.notifier(serverProvider).acceptFileRequest(selectedFiles);
 
             await Routerino.context.pushAndRemoveUntilImmediately(
-              removeUntil: ReceivePage,
-              builder: () => ProgressPage(
-                showAppBar: false,
-                closeSessionOnClose: true,
+              removeUntil: HuaweiReceivePage,
+              builder: () => HuaweiProgressPage(
                 sessionId: sessionId,
               ),
             );
@@ -340,7 +337,7 @@ class ReceiveController {
       });
 
       // ignore: use_build_context_synchronously, unawaited_futures
-      Routerino.context.push(() => ReceivePage(receiveProvider));
+      Routerino.context.push(() => HuaweiReceivePage(receiveProvider));
 
       // Delayed response (waiting for user's decision)
       selection = await streamController.stream.first;
@@ -395,9 +392,7 @@ class ReceiveController {
     if (quickSave) {
       // ignore: use_build_context_synchronously, unawaited_futures
       Routerino.context.pushImmediately(
-        () => ProgressPage(
-          showAppBar: false,
-          closeSessionOnClose: true,
+        () => HuaweiProgressPage(
           sessionId: sessionId,
         ),
       );
@@ -613,7 +608,7 @@ class ReceiveController {
           _logger.info('Closing session');
 
           // ignore: use_build_context_synchronously, discarded_futures
-          Routerino.context.pushRootImmediately(() => const HomePage(initialTab: HomeTab.receive, appStart: false));
+          Routerino.context.pushRootImmediately(() => const HuaweiHomePage());
 
           // open the dialog to open file instantly
           if (filePath != null && filePath.isNotEmpty) {
@@ -845,7 +840,7 @@ void _cancelBySender(ServerUtils server) {
   if (receiveSession.status == SessionStatus.waiting) {
     // received cancel during accept/decline
     // pop just in case if user is in [ReceiveOptionsPage]
-    Routerino.context.popUntil(ReceivePage);
+    Routerino.context.popUntil(HuaweiReceivePage);
   }
 
   server.setState(
