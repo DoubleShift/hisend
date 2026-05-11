@@ -15,8 +15,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:localsend_app/config/refena.dart';
 import 'package:localsend_app/config/theme.dart';
-import 'package:localsend_app/pages/home_page.dart';
-import 'package:localsend_app/pages/home_page_controller.dart';
+import 'package:localsend_app/pages/huawei/huawei_home_page.dart';
 import 'package:localsend_app/provider/animation_provider.dart';
 import 'package:localsend_app/provider/app_arguments_provider.dart';
 import 'package:localsend_app/provider/device_info_provider.dart';
@@ -238,7 +237,7 @@ Future<void> postInit(BuildContext context, Ref ref, bool appStart) async {
         for (final string in pendingStrings) {
           ref.redux(selectedSendingFilesProvider).dispatch(AddMessageAction(message: string));
         }
-        ref.redux(homePageControllerProvider).dispatch(ChangeTabAction(HomeTab.send));
+        ref.redux(huaweiTabControllerProvider).dispatch(HuaweiChangeTabAction(HuaweiTab.devices));
       });
 
       await setupMethodCallHandler();
@@ -310,7 +309,7 @@ class _HandleShareIntentAction extends AsyncGlobalAction {
           ),
         );
 
-    ref.redux(homePageControllerProvider).dispatch(ChangeTabAction(HomeTab.send));
+    ref.redux(huaweiTabControllerProvider).dispatch(HuaweiChangeTabAction(HuaweiTab.devices));
   }
 }
 
@@ -325,7 +324,7 @@ class _HandleAppStartArgumentsAction extends AsyncGlobalAction {
   Future<void> reduce() async {
     final filesAdded = await ref.redux(selectedSendingFilesProvider).dispatchAsyncTakeResult(LoadSelectionFromArgsAction(args));
     if (filesAdded) {
-      ref.redux(homePageControllerProvider).dispatch(ChangeTabAction(HomeTab.send));
+      ref.redux(huaweiTabControllerProvider).dispatch(HuaweiChangeTabAction(HuaweiTab.devices));
     }
   }
 }

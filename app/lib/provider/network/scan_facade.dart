@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:common/util/sleep.dart';
-import 'package:localsend_app/pages/home_page.dart';
-import 'package:localsend_app/pages/home_page_controller.dart';
+import 'package:localsend_app/pages/huawei/huawei_home_page.dart';
 import 'package:localsend_app/provider/favorites_provider.dart';
 import 'package:localsend_app/provider/local_ip_provider.dart';
 import 'package:localsend_app/provider/network/nearby_devices_provider.dart';
@@ -41,8 +40,8 @@ class StartSmartScan extends AsyncGlobalAction {
     // If no devices has been found, then switch to legacy discovery mode
     // which is purely HTTP/TCP based.
     final stillEmpty = ref.read(nearbyDevicesProvider).devices.isEmpty;
-    final stillInSendTab = ref.read(homePageControllerProvider).currentTab == HomeTab.send;
-    if (forceLegacy || (stillEmpty && stillInSendTab)) {
+    final stillInDevicesTab = ref.read(huaweiTabControllerProvider).currentTab == HuaweiTab.devices;
+    if (forceLegacy || (stillEmpty && stillInDevicesTab)) {
       final networkInterfaces = ref.read(localIpProvider).localIps.take(maxInterfaces).toList();
       if (networkInterfaces.isNotEmpty) {
         await dispatchAsync(StartLegacySubnetScan(subnets: networkInterfaces));
@@ -51,8 +50,8 @@ class StartSmartScan extends AsyncGlobalAction {
       if (!stillEmpty) {
         emitMessage('Already found devices. This network seem to work, no need to start legacy scan.');
       }
-      if (!stillInSendTab) {
-        emitMessage('User left the send tab. No need to start legacy scan.');
+      if (!stillInDevicesTab) {
+        emitMessage('User left the devices tab. No need to start legacy scan.');
       }
     }
   }

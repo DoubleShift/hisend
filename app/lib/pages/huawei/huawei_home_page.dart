@@ -24,6 +24,44 @@ enum HuaweiTab {
   }
 }
 
+class HuaweiTabVm {
+  final HuaweiTab currentTab;
+  final void Function(HuaweiTab) changeTab;
+
+  HuaweiTabVm({
+    required this.currentTab,
+    required this.changeTab,
+  });
+}
+
+final huaweiTabControllerProvider = ReduxProvider<HuaweiTabController, HuaweiTabVm>(
+  (ref) => HuaweiTabController(),
+);
+
+class HuaweiTabController extends ReduxNotifier<HuaweiTabVm> {
+  @override
+  HuaweiTabVm init() {
+    return HuaweiTabVm(
+      currentTab: HuaweiTab.devices,
+      changeTab: (tab) => redux.dispatch(HuaweiChangeTabAction(tab)),
+    );
+  }
+}
+
+class HuaweiChangeTabAction extends ReduxAction<HuaweiTabController, HuaweiTabVm> {
+  final HuaweiTab tab;
+
+  HuaweiChangeTabAction(this.tab);
+
+  @override
+  HuaweiTabVm reduce() {
+    return HuaweiTabVm(
+      currentTab: tab,
+      changeTab: state.changeTab,
+    );
+  }
+}
+
 class HuaweiHomePage extends StatefulWidget {
   const HuaweiHomePage({super.key});
 
@@ -43,6 +81,13 @@ class _HuaweiHomePageState extends State<HuaweiHomePage> with Refena {
   void initState() {
     super.initState();
     ensureRef((ref) async {
+      ref.listen(huaweiTabControllerProvider, (prev, next) {
+        if (prev?.currentTab != next.currentTab) {
+          setState(() {
+            _currentIndex = next.currentTab.index;
+          });
+        }
+      });
       await postInit(context, ref, true);
     });
   }
@@ -60,6 +105,9 @@ class _HuaweiHomePageState extends State<HuaweiHomePage> with Refena {
           setState(() {
             _currentIndex = index;
           });
+          context.ref.redux(huaweiTabControllerProvider).dispatch(
+            HuaweiChangeTabAction(HuaweiTab.values[index]),
+          );
         },
         destinations: HuaweiTab.values.map((tab) {
           return NavigationDestination(
