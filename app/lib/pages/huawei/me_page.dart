@@ -1,3 +1,4 @@
+import 'package:common/model/device_info_result.dart';
 import 'package:flutter/material.dart';
 import 'package:localsend_app/config/huawei_theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
@@ -12,19 +13,20 @@ import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 
-class MePage extends StatelessWidget {
+class MePage extends ConsumerWidget {
   const MePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context, Refena ref) {
+    final settings = ref.watch(settingsProvider);
+    final deviceInfo = ref.watch(deviceInfoProvider);
       appBar: AppBar(
         title: const Text('我的'),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 8),
         children: [
-          _buildProfileCard(context),
+          _buildProfileCard(context, settings, deviceInfo),
           const SizedBox(height: 12),
           _buildFeatureSection(context),
           const SizedBox(height: 8),
@@ -34,15 +36,12 @@ class MePage extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileCard(BuildContext context) {
-    final deviceInfo = context.watch(deviceInfoProvider);
-    final settings = context.watch(settingsProvider);
-
+  Widget _buildProfileCard(BuildContext context, SettingsState settings, DeviceInfoResult deviceInfo) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        onTap: () => _showAliasEditDialog(context, settings),
+        onTap: () => _showAliasEditDialog(context, settings.alias),
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Row(
@@ -95,8 +94,8 @@ class MePage extends StatelessWidget {
     );
   }
 
-  void _showAliasEditDialog(BuildContext context, dynamic settings) {
-    final controller = TextEditingController(text: settings.alias);
+  void _showAliasEditDialog(BuildContext context, String currentAlias) {
+    final controller = TextEditingController(text: currentAlias);
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -114,10 +113,10 @@ class MePage extends StatelessWidget {
             child: const Text('取消'),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               final newAlias = controller.text.trim();
               if (newAlias.isNotEmpty) {
-                await context.ref.notifier(settingsProvider).setAlias(newAlias);
+                await ref.notifier(settingsProvider).setAlias(newAlias);
               }
               Navigator.pop(ctx);
             },
