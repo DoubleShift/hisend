@@ -71,7 +71,10 @@ class _HuaweiProgressPageState extends State<HuaweiProgressPage> with Refena {
     final progressNotifier = ref.watch(progressProvider);
     final currBytes = _files.fold<int>(
       0,
-      (prev, curr) => prev + ((progressNotifier.getProgress(sessionId: widget.sessionId, fileId: curr.id) * curr.size).round()).toInt(),
+      (prev, curr) {
+        final progress = progressNotifier.getProgress(sessionId: widget.sessionId, fileId: curr.id);
+        return prev + (progress * curr.size).round();
+      },
     );
 
     final receiveSession = ref.watch(serverProvider.select((s) => s?.session));

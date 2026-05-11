@@ -25,7 +25,7 @@ class HuaweiReceiveHistoryPage extends StatelessWidget {
               onPressed: () async {
                 final clear = await showDialog(context: context, builder: (_) => const HistoryClearDialog());
                 if (clear == true) {
-                  context.ref.redux(receiveHistoryProvider).dispatch(ClearReceiveHistoryAction());
+                  await context.ref.redux(receiveHistoryProvider).dispatchAsync(RemoveAllHistoryEntriesAction());
                 }
               },
             ),
