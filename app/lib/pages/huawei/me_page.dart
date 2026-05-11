@@ -20,6 +20,7 @@ class MePage extends ConsumerWidget {
   Widget build(BuildContext context, Refena ref) {
     final settings = ref.watch(settingsProvider);
     final deviceInfo = ref.watch(deviceInfoProvider);
+    return Scaffold(
       appBar: AppBar(
         title: const Text('我的'),
       ),
