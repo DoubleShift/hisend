@@ -45,7 +45,7 @@ class _HuaweiProgressPageState extends State<HuaweiProgressPage> with Refena {
             _selectedFiles = sendSession.files.values.where((f) => f.status != FileStatus.skipped).map((f) => f.file.id).toSet();
           }
         }
-        _totalBytes = _files.where((f) => _selectedFiles.contains(f.id)).fold(0, (prev, curr) => prev + curr.size);
+        _totalBytes = _files.where((f) => _selectedFiles.contains(f.id)).fold<int>(0, (prev, curr) => prev + curr.size);
       });
     });
   }
