@@ -8,7 +8,6 @@ import 'package:localsend_app/util/native/open_folder.dart';
 import 'package:localsend_app/widget/dialogs/file_info_dialog.dart';
 import 'package:localsend_app/widget/dialogs/history_clear_dialog.dart';
 import 'package:refena_flutter/refena_flutter.dart';
-
 class HuaweiReceiveHistoryPage extends StatelessWidget {
   const HuaweiReceiveHistoryPage({super.key});
 
@@ -91,7 +90,7 @@ class HuaweiReceiveHistoryPage extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 2),
                                 Text(
-                                  '${entry.size.asReadableFileSize} · ${_formatTimestamp(entry.timestamp)}',
+                                  '${entry.fileSize.asReadableFileSize} · ${_formatTimestamp(entry.timestamp)}',
                                   style: TextStyle(color: HuaweiColors.textTertiary, fontSize: 12),
                                 ),
                               ],

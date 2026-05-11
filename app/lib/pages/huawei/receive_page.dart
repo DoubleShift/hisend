@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localsend_app/config/huawei_theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
-import 'package:localsend_app/model/state/receive/receive_session_state.dart';
+import 'package:localsend_app/model/state/server/receive_session_state.dart';
 import 'package:localsend_app/provider/favorites_provider.dart';
 import 'package:localsend_app/provider/network/server/server_provider.dart';
 import 'package:localsend_app/util/device_type_ext.dart';
@@ -29,7 +29,7 @@ class _HuaweiReceivePageState extends State<HuaweiReceivePage> with Refena {
       builder: (context, vm) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(t.receivePage.title),
+            title: const Text('接收文件'),
           ),
           body: SafeArea(
             child: Padding(

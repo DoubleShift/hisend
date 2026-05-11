@@ -6,6 +6,7 @@ import 'package:localsend_app/model/persistence/favorite_device.dart';
 import 'package:localsend_app/model/state/server/receive_session_state.dart';
 import 'package:localsend_app/model/state/settings_state.dart';
 import 'package:localsend_app/pages/huawei/receive_page.dart';
+import 'package:localsend_app/pages/receive_page.dart' show ReceivePageVm;
 import 'package:localsend_app/provider/network/webrtc/signaling_provider.dart';
 import 'package:localsend_app/rust/api/model.dart';
 import 'package:localsend_app/rust/api/webrtc.dart';

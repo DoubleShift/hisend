@@ -4,8 +4,8 @@ import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/color_mode.dart';
 import 'package:localsend_app/pages/huawei/language_page.dart';
 import 'package:localsend_app/pages/huawei/network_interfaces_page.dart';
+import 'package:localsend_app/pages/language_page.dart' show AppLocaleExt;
 import 'package:localsend_app/provider/settings_provider.dart';
-import 'package:localsend_app/util/alias_generator.dart';
 import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:localsend_app/widget/dialogs/encryption_disabled_notice.dart';
 import 'package:localsend_app/widget/dialogs/pin_dialog.dart';
@@ -219,7 +219,7 @@ class HuaweiSettingsPage extends StatelessWidget {
               }
               Navigator.pop(ctx);
             },
-            child: Text(t.general.ok),
+            child: Text(t.general.confirm),
           ),
         ],
       ),

@@ -23,6 +23,7 @@ import 'package:localsend_app/model/state/server/receiving_file.dart';
 import 'package:localsend_app/pages/huawei/huawei_home_page.dart';
 import 'package:localsend_app/pages/huawei/progress_page.dart';
 import 'package:localsend_app/pages/huawei/receive_page.dart';
+import 'package:localsend_app/pages/receive_page.dart' show ReceivePageVm;
 import 'package:localsend_app/provider/device_info_provider.dart';
 import 'package:localsend_app/provider/favorites_provider.dart';
 import 'package:localsend_app/provider/http_provider.dart';
@@ -731,7 +732,7 @@ class ReceiveController {
         final List<String> args = (jsonBody['args'] as List?)?.cast<String>() ?? <String>[];
         final filesAdded = await server.ref.redux(selectedSendingFilesProvider).dispatchAsyncTakeResult(LoadSelectionFromArgsAction(args));
         if (filesAdded) {
-          server.ref.redux(homePageControllerProvider).dispatch(ChangeTabAction(HomeTab.send));
+          // In HiSend, no tab switching needed
         }
       });
 

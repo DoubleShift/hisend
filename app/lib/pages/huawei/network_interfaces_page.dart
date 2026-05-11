@@ -24,10 +24,10 @@ class _HuaweiNetworkInterfacesPageState extends State<HuaweiNetworkInterfacesPag
   void _loadSettings() {
     final settings = context.ref.read(settingsProvider);
     if (settings.networkWhitelist != null) {
-      _whitelistController.text = settings.networkWhitelist!;
+      _whitelistController.text = settings.networkWhitelist!.join('\n');
     }
     if (settings.networkBlacklist != null) {
-      _blacklistController.text = settings.networkBlacklist!;
+      _blacklistController.text = settings.networkBlacklist!.join('\n');
     }
   }
 
@@ -74,14 +74,15 @@ class _HuaweiNetworkInterfacesPageState extends State<HuaweiNetworkInterfacesPag
                           await context.ref.notifier(settingsProvider).setNetworkWhitelist(null);
                           _whitelistController.clear();
                         },
-                        child: Text(t.general.clear),
+                        child: Text(t.general.reset),
                       ),
                       ElevatedButton(
                         onPressed: () async {
                           final text = _whitelistController.text.trim();
-                          await context.ref.notifier(settingsProvider).setNetworkWhitelist(text.isEmpty ? null : text);
+                          final list = text.isEmpty ? null : text.split('\n').where((s) => s.trim().isNotEmpty).map((s) => s.trim()).toList();
+                          await context.ref.notifier(settingsProvider).setNetworkWhitelist(list);
                         },
-                        child: Text(t.general.ok),
+                        child: Text(t.general.confirm),
                       ),
                     ],
                   ),
@@ -117,14 +118,15 @@ class _HuaweiNetworkInterfacesPageState extends State<HuaweiNetworkInterfacesPag
                           await context.ref.notifier(settingsProvider).setNetworkBlacklist(null);
                           _blacklistController.clear();
                         },
-                        child: Text(t.general.clear),
+                        child: Text(t.general.reset),
                       ),
                       ElevatedButton(
                         onPressed: () async {
                           final text = _blacklistController.text.trim();
-                          await context.ref.notifier(settingsProvider).setNetworkBlacklist(text.isEmpty ? null : text);
+                          final list = text.isEmpty ? null : text.split('\n').where((s) => s.trim().isNotEmpty).map((s) => s.trim()).toList();
+                          await context.ref.notifier(settingsProvider).setNetworkBlacklist(list);
                         },
-                        child: Text(t.general.ok),
+                        child: Text(t.general.confirm),
                       ),
                     ],
                   ),

@@ -71,7 +71,7 @@ class _HuaweiProgressPageState extends State<HuaweiProgressPage> with Refena {
     final progressNotifier = ref.watch(progressProvider);
     final currBytes = _files.fold<int>(
       0,
-      (prev, curr) => prev + ((progressNotifier.getProgress(sessionId: widget.sessionId, fileId: curr.id) * curr.size).round()),
+      (prev, curr) => prev + ((progressNotifier.getProgress(sessionId: widget.sessionId, fileId: curr.id) * curr.size).round()).toInt(),
     );
 
     final receiveSession = ref.watch(serverProvider.select((s) => s?.session));
@@ -143,7 +143,7 @@ class _HuaweiProgressPageState extends State<HuaweiProgressPage> with Refena {
                                   )
                                 else
                                   Text(
-                                    fileStatus.label,
+                                    _fileStatusLabel(fileStatus),
                                     style: TextStyle(color: _getStatusColor(fileStatus), fontSize: 12),
                                   ),
                               ],
@@ -237,6 +237,16 @@ class _HuaweiProgressPageState extends State<HuaweiProgressPage> with Refena {
       FileStatus.sending => Icons.sync,
       FileStatus.skipped => Icons.skip_next,
       _ => Icons.schedule,
+    };
+  }
+
+  String _fileStatusLabel(FileStatus status) {
+    return switch (status) {
+      FileStatus.queue => t.general.queue,
+      FileStatus.skipped => t.general.skipped,
+      FileStatus.sending => '',
+      FileStatus.failed => t.general.error,
+      FileStatus.finished => t.general.done,
     };
   }
 }
