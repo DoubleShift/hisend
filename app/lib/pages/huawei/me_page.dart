@@ -2,6 +2,7 @@ import 'package:common/model/device_info_result.dart';
 import 'package:flutter/material.dart';
 import 'package:localsend_app/config/huawei_theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
+import 'package:localsend_app/model/state/settings_state.dart';
 import 'package:localsend_app/pages/about/about_page.dart';
 import 'package:localsend_app/pages/changelog_page.dart';
 import 'package:localsend_app/pages/debug/debug_page.dart';
@@ -13,13 +14,14 @@ import 'package:localsend_app/util/native/platform_check.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 
-class MePage extends ConsumerWidget {
+class MePage extends StatelessWidget {
   const MePage({super.key});
 
   @override
-  Widget build(BuildContext context, Refena ref) {
-    final settings = ref.watch(settingsProvider);
-    final deviceInfo = ref.watch(deviceInfoProvider);
+  Widget build(BuildContext context) {
+    final settings = context.watch(settingsProvider);
+    final deviceInfo = context.watch(deviceInfoProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('我的'),
@@ -117,7 +119,7 @@ class MePage extends ConsumerWidget {
             onPressed: () async {
               final newAlias = controller.text.trim();
               if (newAlias.isNotEmpty) {
-                await ref.notifier(settingsProvider).setAlias(newAlias);
+                await context.ref.notifier(settingsProvider).setAlias(newAlias);
               }
               Navigator.pop(ctx);
             },
